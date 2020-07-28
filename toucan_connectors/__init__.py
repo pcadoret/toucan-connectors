@@ -145,6 +145,10 @@ CONNECTORS_REGISTRY = {
         'connector': 'workday.workday_connector.WorkdayConnector',
         'logo': 'workday/workday.jpg',
     },
+    'Workday_XML': {
+        'connector': 'workday_xml.workday_xml_connector.WorkdayXMLConnector',
+        'logo': 'workday_xml/workday.jpg',
+    },
 }
 
 
