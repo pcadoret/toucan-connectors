@@ -24,7 +24,7 @@ class WorkdayXMLDataSource(ToucanDataSource):
         None,
         title='',
         description='',
-        example='https://wd3-impl-services1.workday.com/ccx/service/systemreport2/umanis/All_Worker_Time_Off?Organisations!WID={0}&Inclure_les_responsables=0&Inclure_les_organisations_subordonn%C3%A9es=1',
+        example='https://wd3-impl-services1.workday.com/ccx/service/systemreport2/umanis/All_Worker_Time_Off?Inclure_les_responsables=0&Inclure_les_organisations_subordonn%C3%A9es=1',
     )
 
 class WorkdayXMLConnector(ToucanConnector):
@@ -75,7 +75,7 @@ class WorkdayXMLConnector(ToucanConnector):
 
         df_organizations = connector.get_df(data_source_organizations)
         
-        url_report_Absences = "https://wd3-impl-services1.workday.com/ccx/service/systemreport2/umanis/All_Worker_Time_Off?Organisations!WID={0}&Inclure_les_responsables=0&Inclure_les_organisations_subordonn%C3%A9es=1" \
+        url_report_Absences =  data_source.report_url + '&Organisations!WID={0}' \
     .format('!'.join(df_organizations.loc[df_organizations.Org_Parent_WID.isnull() & (df_organizations.Org_SubType == "Matrix"),"Org_WID"]))
         print(url_report_Absences)
         
