@@ -50,6 +50,27 @@ class WorkdayXMLConnector(ToucanConnector):
     )
 
     def _retrieve_data(self, data_source: WorkdayXMLDataSource) -> pd.DataFrame:
-        pass
-        
+        connector = WorkdayConnector(
+            name='myWorkdayConnector',
+            type='Workday',
+            tenant=self.tenant,
+            username=self.username,
+            password=self.password,
+        )
 
+        data_source_organizations = WorkdayDataSource(
+            name='myWorkdayDataSource',
+            domain='Referentiel',
+            service='Human_Resources',
+            service_WSDL_URL='https://wd3-impl-services1.workday.com/ccx/service/umanis/Human_Resources/v33.2',
+            operation='Get_Organizations',
+            request_parameters={
+                'Request_References': None,
+                'Request_Criteria': None,
+                'Response_Filter': {},
+                'Response_Group': None
+            },
+            filter='[.Organization[] | {}]',
+        )
+
+        df_organizations = connector.get_df(data_source_organizations)
