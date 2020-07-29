@@ -70,7 +70,13 @@ class WorkdayXMLConnector(ToucanConnector):
                 'Response_Filter': {},
                 'Response_Group': None
             },
-            filter='[.Organization[] | {}]',
+            filter='[.Organization[] | {Org_WID: .Organization_Reference.ID[0]._value_1, Org_Parent_WID: .Organization_Data.Hierarchy_Data.Superior_Organization_Reference.ID[0]._value_1, Org_SubType: .Organization_Data.Organization_Subtype_Reference.ID[1]._value_1}]',
         )
 
         df_organizations = connector.get_df(data_source_organizations)
+        
+        url_report_Absences = "https://wd3-impl-services1.workday.com/ccx/service/systemreport2/umanis/All_Worker_Time_Off?Organisations!WID={0}&Inclure_les_responsables=0&Inclure_les_organisations_subordonn%C3%A9es=1" \
+    .format('!'.join(df_organizations.loc[df_organizations.Org_Parent_WID.isnull() & (df_organizations.Org_SubType == "Matrix"),"Org_WID"]))
+        print(url_report_Absences)
+        
+        return df_organizations
